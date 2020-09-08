@@ -42,31 +42,41 @@ async function fetchPage({ token, url }) {
   };
 }
 
-async function findKfcTransaction(token, updateCount) {
-  let { data, links } = await fetchPage({ token });
-  let allTransactions = [...data];
-  let nextUrl = links.next;
-  let match = getMatch(data);
-  while (!match && nextUrl) {
-    let nextPage = await fetchPage({ token, url: nextUrl });
-    match = getMatch(nextPage.data);
-    allTransactions = [...allTransactions, ...nextPage.data];
-    updateCount(allTransactions.length);
-    nextUrl = nextPage.links.next;
+async function findKfcTransaction(token, updateCount, setErrored) {
+  try {
+    let { data, links } = await fetchPage({ token });
+    if (!data) {
+      setErrored(true);
+      return {};
+    }
+    let allTransactions = [...data];
+    let nextUrl = links.next;
+    let match = getMatch(data);
+    while (!match && nextUrl) {
+      let nextPage = await fetchPage({ token, url: nextUrl });
+      match = getMatch(nextPage.data);
+      allTransactions = [...allTransactions, ...nextPage.data];
+      updateCount(allTransactions.length);
+      nextUrl = nextPage.links.next;
+    }
+    return {
+      allTransactions,
+      match,
+    };
+  } catch (error) {
+    setErrored(true);
+    return {};
   }
-  return {
-    allTransactions,
-    match,
-  };
 }
 
 export default function HowLong({ token, onBack }) {
   const [transactions, setTransactions] = useState();
   const [match, setMatch] = useState();
   const [count, updateCount] = useState(0);
+  const [errored, setErrored] = useState(false);
 
   useEffect(() => {
-    findKfcTransaction(token, updateCount).then(
+    findKfcTransaction(token, updateCount, setErrored).then(
       ({ allTransactions, match }) => {
         setTransactions(allTransactions);
         setMatch(match);
@@ -76,7 +86,20 @@ export default function HowLong({ token, onBack }) {
 
   return (
     <div className="text-white pt-20 text-center">
-      {!transactions ? (
+      {errored ? (
+        <div>
+          Oops, something went wrong! Is your token correct?
+          <div>
+            <button
+              style={{ backgroundColor: "#f5d4b7" }}
+              className="w-20 text-black mt-10"
+              onClick={onBack}
+            >
+              Try Again
+            </button>
+          </div>
+        </div>
+      ) : !transactions ? (
         <div>
           <div className="text-xl" style={{ color: "#f5d4b7" }}>
             Finding out...{" "}
