@@ -2,12 +2,13 @@ import * as React from "react";
 
 export default function TokenInput({ token, setToken, onSubmit }: Props) {
   return (
-    <div className="pt-20">
+    <div>
       <input
         className="pl-4"
         onChange={(event) => setToken(event.target.value)}
         value={token}
         placeholder="Enter your token"
+        style={{ background: "#fff1e2", color: "#a3080c" }}
       />
       <div className="flex justify-center pt-10">
         <button
