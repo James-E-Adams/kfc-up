@@ -7,7 +7,9 @@ import Link from "./Link";
 
 export default function Disclaimer({ className }) {
   return (
-    <div className={classnames("text-white text-center text-lg", className)}>
+    <div
+      className={classnames("text-white text-center text-lg pb-4", className)}
+    >
       <div></div>
       <div>This has no affiliation with KFC or Up Bank.</div>
       <div>

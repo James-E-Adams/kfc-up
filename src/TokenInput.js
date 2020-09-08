@@ -5,7 +5,7 @@ export default function TokenInput({ token, setToken, onSubmit }: Props) {
   return (
     <div>
       <input
-        className="pl-4"
+        className="px-2 h-10 text-lg"
         onChange={(event) => setToken(event.target.value)}
         value={token}
         placeholder="Enter token..."
