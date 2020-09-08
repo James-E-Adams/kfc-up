@@ -17,8 +17,11 @@ function App() {
   const [stage, setStage] = useState(0);
 
   return (
-    <div className="App h-screen" style={{ backgroundColor: "#a3080c" }}>
-      <div className="h-full flex flex-col w-screen justify-between items-center">
+    <div className="App min-h-screen" style={{ backgroundColor: "#a3080c" }}>
+      <div
+        className="h-full flex flex-col w-screen justify-between items-center px-4 min-h-screen"
+        // style={{ minHeight: 800 }}
+      >
         <div className="pt-20">
           <div className="w-100 flex justify-between items-center">
             <img
@@ -32,7 +35,7 @@ function App() {
               className="w-20"
             />
           </div>
-          <div className="text-white text-2xl pt-4">
+          <div className="text-white lg:text-2xl text-xl pt-4">
             <DroolEmoji /> How long since you last had KFC? <DroolEmoji />
           </div>
         </div>

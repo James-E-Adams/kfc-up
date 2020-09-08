@@ -31,7 +31,7 @@ const getMatch = (transactions) =>
 
 const getDuration = (createdAt) => {
   const duration = moment.duration(moment().diff(moment(createdAt)));
-  return duration.humanize();
+  return `${Math.round(duration.asDays())} days`;
 };
 
 async function fetchPage({ token, url }) {
