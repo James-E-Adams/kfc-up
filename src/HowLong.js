@@ -31,7 +31,8 @@ const getMatch = (transactions) =>
 
 const getDuration = (createdAt) => {
   const duration = moment.duration(moment().diff(moment(createdAt)));
-  return `${Math.round(duration.asDays())} days`;
+  const days = Math.round(duration.asDays());
+  return days !== 0 ? `${days} days` : "0 days? Are you eating KFC right now?!";
 };
 
 async function fetchPage({ token, url }) {
